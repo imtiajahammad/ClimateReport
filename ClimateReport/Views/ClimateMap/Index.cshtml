@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@model ClimateReport.Models.ClimateModel
+<style>
+    #SatyaDiv {
+        padding-left: 20px;
+    }
+
+        #SatyaDiv select, #SatyaDiv button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        #SatyaDiv #message table {
+            width: 100%;
+            border: solid 3px green;
+            color: blue;
+            font-style: oblique;
+            font-family: Georgia;
+            font-weight: bold;
+            background: yellow;
+        }
+
+            #SatyaDiv #message table th {
+                text-align: left;
+                color: white;
+                font-style: oblique;
+                background: Blue;
+            }
+</style>
+@{ ViewBag.Title = "CLIMATE API IN ASP.NET MVC";}
+<h2 style="background-color: Yellow;color: Blue; text-align: center; font-style: oblique"> CLIMATE API TO GET CLIMATE REPORT OF PLACES</h2>
+<fieldset>
+    <legend style="font-family:Arial Black;color:blue">CHECK LATEST CLIMATE REPORT</legend>
+    <div id="SatyaDiv">
+        <h4 style="color:crimson">Choose Place To Check Climate Report</h4>
+        @using (Html.BeginForm())
+        {
+            foreach (var city in Model.cities)
+            {
+                <span>
+                    @Html.RadioButtonFor(m => m.cities, city.Value) @city.Key
+                </span>
+            }
+
+            <button name="submit">Show Report</button>
+        }
+        <div id="message">@(new HtmlString(Model.apiResponse))</div>
+    </div>
+</fieldset>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $("input[id='cities']").change(function () {
+            $(this).parents("#SatyaDiv").find("span").css("background", "none");
+            $(this).parent().css("background", "");
+        });
+    });
+</script>
+
+@if (TempData["SelectOption"] != null)
+{
+    <script type="text/javascript">
+
+        alert("Select Any One Place To Get Today's Latest Climate Report");
+    </script>
+}
+
+<footer>
+    <p style="background-color: Yellow; font-weight: bold; color:blue; text-align: center; font-style: oblique">© @DateTime.Now.ToLocalTime()</p> @*Add Date Time*@
+</footer>
+
